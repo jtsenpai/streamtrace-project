@@ -5,7 +5,13 @@ import {
   PiggyBank,
   Plus,
   TriangleAlert,
+  Edit2,
+  Trash2,
+  Pause,
 } from "lucide-react";
+import Modal from "../../../components/Modal";
+import AddSubscriptionForm from "../components/AddSubscriptionForm";
+import ActionButton from "../components/ActionButton";
 import {
   subscriptionCategories,
   subscriptionsList,
@@ -50,11 +56,19 @@ function ServiceIcon({ accent, icon }) {
 
 function SubscriptionsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isManageModalOpen, setIsManageModalOpen] = useState(false);
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
 
   const filtered =
     activeCategory === "All"
       ? subscriptionsList
       : subscriptionsList.filter((s) => s.category === activeCategory);
+
+  const handleManage = (sub) => {
+    setSelectedSubscription(sub);
+    setIsManageModalOpen(true);
+  };
 
   return (
     <section className="space-y-6">
@@ -66,7 +80,10 @@ function SubscriptionsPage() {
             Manage and track your {subscriptionsList.length} active services.
           </p>
         </div>
-        <button className="btn-primary-cinema inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="btn-primary-cinema inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition"
+        >
           <Plus size={16} />
           Add Subscription
         </button>
@@ -167,7 +184,10 @@ function SubscriptionsPage() {
                       Resume
                     </button>
                   ) : (
-                    <button className="rounded-lg border border-white/12 bg-white/4 px-4 py-1.5 text-xs font-semibold text-text-muted transition hover:border-white/25 hover:text-text">
+                    <button 
+                      onClick={() => handleManage(sub)}
+                      className="rounded-lg border border-white/12 bg-white/4 px-4 py-1.5 text-xs font-semibold text-text-muted transition hover:border-white/25 hover:text-text"
+                    >
                       Manage
                     </button>
                   )}
@@ -228,11 +248,59 @@ function SubscriptionsPage() {
 
       {/* floating add button */}
       <button
+        onClick={() => setIsAddModalOpen(true)}
         className="btn-primary-cinema fixed bottom-8 right-8 z-30 flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-primary/30 transition hover:scale-105"
         aria-label="Add subscription"
       >
         <Plus size={24} />
       </button>
+
+      {/* Modals */}
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Add New Subscription"
+      >
+        <AddSubscriptionForm onSubmit={() => setIsAddModalOpen(false)} />
+      </Modal>
+
+      <Modal
+        isOpen={isManageModalOpen}
+        onClose={() => setIsManageModalOpen(false)}
+        title={`Manage ${selectedSubscription?.name}`}
+      >
+        <div className="space-y-6">
+          <div className="flex items-center gap-4 rounded-xl border border-white/5 bg-white/2 p-4">
+            <ServiceIcon accent={selectedSubscription?.accent} icon={selectedSubscription?.icon} />
+            <div>
+              <p className="font-semibold text-text">{selectedSubscription?.name}</p>
+              <p className="text-sm text-text-muted">{selectedSubscription?.plan}</p>
+            </div>
+            <div className="ml-auto text-right">
+              <p className="text-lg font-semibold text-primary-soft">${selectedSubscription?.price.toFixed(2)}</p>
+              <p className="text-xs text-text-muted">{selectedSubscription?.billing}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-4 transition hover:border-primary/40 hover:bg-primary/10 hover:text-primary-soft">
+              <Edit2 size={20} />
+              <span className="text-xs font-medium">Edit Details</span>
+            </button>
+            <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-4 transition hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-400">
+              <Pause size={20} />
+              <span className="text-xs font-medium">Pause Service</span>
+            </button>
+          </div>
+
+          <div className="border-t border-white/5 pt-4">
+            <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/8 p-3 text-sm font-semibold text-rose-400 transition hover:bg-rose-500/15">
+              <Trash2 size={16} />
+              Cancel Subscription
+            </button>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 }

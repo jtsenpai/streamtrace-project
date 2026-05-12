@@ -1,6 +1,6 @@
 import { CalendarClock, MoreVertical } from "lucide-react";
 
-function SubscriptionRow({ name, plan, nextBill, price, accent }) {
+function SubscriptionRow({ name, plan, nextBill, price, accent, onAction }) {
   return (
     <article className="dashboard-card flex items-center justify-between gap-4 p-4">
       <div className="flex min-w-0 items-center gap-3">
@@ -21,7 +21,11 @@ function SubscriptionRow({ name, plan, nextBill, price, accent }) {
       <p className="min-w-[80px] text-right text-lg font-semibold tabular-data text-primary-soft">
         {price}
       </p>
-      <button className="icon-button" aria-label={`More options for ${name}`}>
+      <button 
+        onClick={onAction}
+        className="icon-button" 
+        aria-label={`More options for ${name}`}
+      >
         <MoreVertical size={16} />
       </button>
     </article>

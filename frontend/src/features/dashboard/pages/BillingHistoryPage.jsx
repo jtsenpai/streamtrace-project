@@ -4,7 +4,13 @@ import {
   ChevronRight,
   CircleDollarSign,
   Download,
+  Eye,
+  FileText,
+  Printer,
+  Share2,
 } from "lucide-react";
+import Modal from "../../../components/Modal";
+import ActionButton from "../components/ActionButton";
 import {
   billingInfoCards,
   billingStats,
@@ -46,7 +52,16 @@ function ServiceIcon({ accent, icon }) {
 
 function BillingHistoryPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTxn, setSelectedTxn] = useState(null);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
+  const [activeInfoModal, setActiveInfoModal] = useState(null);
+
   const totalPages = Math.ceil(totalTransactions / transactionsPerPage);
+
+  const handleViewInvoice = (txn) => {
+    setSelectedTxn(txn);
+    setIsInvoiceModalOpen(true);
+  };
 
   return (
     <section className="space-y-6">
@@ -110,12 +125,13 @@ function BillingHistoryPage() {
                 </td>
                 <td className="px-5 py-4 text-center">
                   <button
+                    onClick={() => handleViewInvoice(txn)}
                     className={`icon-button mx-auto ${
                       txn.status === "Pending"
                         ? "pointer-events-none opacity-30"
                         : ""
                     }`}
-                    aria-label={`Download invoice for ${txn.service}`}
+                    aria-label={`View invoice for ${txn.service}`}
                     disabled={txn.status === "Pending"}
                   >
                     <Download size={16} />
@@ -181,13 +197,91 @@ function BillingHistoryPage() {
             <p className="mt-2 text-sm leading-relaxed text-text-muted">
               {card.description}
             </p>
-            <button className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-soft transition hover:text-primary">
+            <button 
+              onClick={() => setActiveInfoModal(card)}
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-soft transition hover:text-primary"
+            >
               {card.action}{" "}
               <span aria-hidden="true">{card.actionIcon}</span>
             </button>
           </div>
         ))}
       </div>
+      {/* Modals */}
+      <Modal
+        isOpen={isInvoiceModalOpen}
+        onClose={() => setIsInvoiceModalOpen(false)}
+        title="Invoice Preview"
+      >
+        <div className="space-y-6">
+          <div className="flex items-center justify-between border-b border-white/5 pb-4">
+            <div className="flex items-center gap-3">
+              <ServiceIcon accent={selectedTxn?.accent} icon={selectedTxn?.icon} />
+              <div>
+                <p className="font-semibold text-text">{selectedTxn?.service}</p>
+                <p className="text-xs text-text-muted">Transaction ID: {selectedTxn?.id}</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-medium text-text">{selectedTxn?.date}</p>
+              <StatusBadge status={selectedTxn?.status} />
+            </div>
+          </div>
+
+          <div className="space-y-4 rounded-xl bg-white/2 p-4">
+            <div className="flex justify-between text-sm">
+              <span className="text-text-muted">{selectedTxn?.plan} Subscription</span>
+              <span className="font-medium text-text">${selectedTxn?.amount.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-text-muted">Tax (0%)</span>
+              <span className="font-medium text-text">$0.00</span>
+            </div>
+            <div className="flex justify-between border-t border-white/5 pt-3 text-base font-semibold">
+              <span className="text-text">Total</span>
+              <span className="text-primary-soft">${selectedTxn?.amount.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-3 transition hover:border-primary/40 hover:bg-primary/10">
+              <Printer size={18} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Print</span>
+            </button>
+            <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-3 transition hover:border-primary/40 hover:bg-primary/10">
+              <Share2 size={18} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Share</span>
+            </button>
+            <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-3 transition hover:border-primary/40 hover:bg-primary/10">
+              <Download size={18} />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Save PDF</span>
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={!!activeInfoModal}
+        onClose={() => setActiveInfoModal(null)}
+        title={activeInfoModal?.title}
+      >
+        <div className="space-y-6 text-center py-4">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <FileText size={32} />
+          </div>
+          <div className="space-y-2">
+            <h4 className="text-xl font-semibold text-text">{activeInfoModal?.action}</h4>
+            <p className="text-text-muted leading-relaxed">
+              This feature is being prepared. You'll soon be able to {activeInfoModal?.description.toLowerCase()}
+            </p>
+          </div>
+          <div className="pt-4">
+            <ActionButton variant="primary" className="w-full" onClick={() => setActiveInfoModal(null)}>
+              Notify Me When Ready
+            </ActionButton>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 }

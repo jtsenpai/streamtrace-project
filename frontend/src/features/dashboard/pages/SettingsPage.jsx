@@ -7,7 +7,11 @@ import {
   Bell,
   Trash2,
   User,
+  ShieldCheck,
+  CreditCard as CardIcon,
 } from "lucide-react";
+import Modal from "../../../components/Modal";
+import ActionButton from "../components/ActionButton";
 import {
   notificationPreferences as defaultPrefs,
   paymentMethods,
@@ -58,6 +62,10 @@ function SettingsSection({ icon: Icon, title, action, children }) {
 
 function SettingsPage() {
   const [prefs, setPrefs] = useState(defaultPrefs);
+  const [activeModal, setActiveModal] = useState(null); // 'addPayment', 'deletePayment', 'deleteAccount'
+  const [selectedPayment, setSelectedPayment] = useState(null);
+
+  const closeModal = () => setActiveModal(null);
 
   function handleToggle(id) {
     setPrefs((prev) =>
@@ -136,7 +144,10 @@ function SettingsPage() {
         icon={CreditCard}
         title="Payment Methods"
         action={
-          <button className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-soft transition hover:text-primary">
+          <button 
+            onClick={() => setActiveModal("addPayment")}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-soft transition hover:text-primary"
+          >
             <Plus size={14} />
             Add New
           </button>
@@ -169,6 +180,10 @@ function SettingsPage() {
                 </span>
               ) : (
                 <button
+                  onClick={() => {
+                    setSelectedPayment(pm);
+                    setActiveModal("deletePayment");
+                  }}
                   className="icon-button text-text-muted hover:text-rose-400"
                   aria-label={`Remove ${pm.type} ending in ${pm.lastFour}`}
                 >
@@ -223,12 +238,115 @@ function SettingsPage() {
               Permanently remove your account and all subscription data. This
               action cannot be undone.
             </p>
-            <button className="mt-4 rounded-lg border border-rose-500/30 bg-rose-500/12 px-4 py-2 text-sm font-semibold text-rose-400 transition hover:bg-rose-500/20">
+            <button 
+              onClick={() => setActiveModal("deleteAccount")}
+              className="mt-4 rounded-lg border border-rose-500/30 bg-rose-500/12 px-4 py-2 text-sm font-semibold text-rose-400 transition hover:bg-rose-500/20"
+            >
               Close Account
             </button>
           </div>
         </div>
       </div>
+      {/* Modals */}
+      <Modal
+        isOpen={!!activeModal}
+        onClose={closeModal}
+        title={
+          activeModal === "addPayment"
+            ? "Add Payment Method"
+            : activeModal === "deletePayment"
+            ? "Remove Payment Method"
+            : "Delete Account"
+        }
+      >
+        {activeModal === "addPayment" && (
+          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-muted">Cardholder Name</label>
+              <input type="text" className="input-cinema" placeholder="John Doe" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-muted">Card Number</label>
+              <div className="relative">
+                <CardIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={18} />
+                <input type="text" className="input-cinema pl-10" placeholder="0000 0000 0000 0000" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-muted">Expiry Date</label>
+                <input type="text" className="input-cinema" placeholder="MM/YY" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-text-muted">CVV</label>
+                <input type="password" className="input-cinema" placeholder="•••" />
+              </div>
+            </div>
+            <div className="pt-4">
+              <ActionButton variant="primary" className="w-full" onClick={closeModal}>
+                Save Payment Method
+              </ActionButton>
+            </div>
+          </form>
+        )}
+
+        {activeModal === "deletePayment" && (
+          <div className="space-y-6 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-500/10 text-rose-500">
+              <Trash2 size={28} />
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-text">Remove payment method?</h4>
+              <p className="mt-2 text-sm text-text-muted">
+                Are you sure you want to remove the {selectedPayment?.type} ending in {selectedPayment?.lastFour}?
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={closeModal}
+                className="rounded-xl border border-white/10 bg-white/4 px-4 py-2.5 text-sm font-semibold text-text transition hover:bg-white/8"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={closeModal}
+                className="rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-600"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        )}
+
+        {activeModal === "deleteAccount" && (
+          <div className="space-y-6 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-500/10 text-rose-500">
+              <AlertTriangle size={28} />
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold text-text">Delete your account?</h4>
+              <p className="mt-2 text-sm text-text-muted">
+                This will permanently delete your profile, subscriptions, and billing history. 
+                This action is irreversible.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <button
+                onClick={closeModal}
+                className="w-full rounded-xl bg-rose-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-rose-600 shadow-lg shadow-rose-500/25"
+              >
+                Yes, delete my account
+              </button>
+              <button
+                onClick={closeModal}
+                className="w-full rounded-xl border border-white/10 bg-white/4 px-4 py-3 text-sm font-semibold text-text transition hover:bg-white/8"
+              >
+                I'll keep my account
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </section>
   );
 }

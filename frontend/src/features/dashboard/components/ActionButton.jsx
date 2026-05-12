@@ -1,4 +1,10 @@
-function ActionButton({ children, variant = "primary", className = "", ...props }) {
+function ActionButton({
+  children,
+  onClick,
+  variant = "primary",
+  className = "",
+  ...props
+}) {
   const variantClass =
     variant === "primary"
       ? "btn-primary-cinema"
@@ -7,6 +13,7 @@ function ActionButton({ children, variant = "primary", className = "", ...props 
   return (
     <button
       className={`inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition ${variantClass} ${className}`}
+      onClick={onClick}
       {...props}
     >
       {children}
