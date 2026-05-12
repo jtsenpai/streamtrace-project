@@ -41,7 +41,7 @@ function DashboardLayout() {
       <div className="lg:pl-64">
         <header className="sticky top-0 z-20 border-b border-white/8 bg-background/90 backdrop-blur-md">
           <div className="flex h-18 items-center justify-between px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-3xl">
               <input
                 className="input-cinema w-full"
                 placeholder="Search services..."

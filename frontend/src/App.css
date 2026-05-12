@@ -13,7 +13,7 @@
   --color-outline: #3e484f;
 
   --font-sans: "Inter", sans-serif;
-  --font-display: "Orbitron", "Inter", sans-serif;
+  --font-display: "Inter", sans-serif;
 
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -96,7 +96,7 @@
   .input-cinema:focus-visible {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgb(56 189 248 / 25%);
+    box-shadow: 0 0 0 3px rgba(22, 62, 79, 0.04);
   }
 
   .icon-button {
