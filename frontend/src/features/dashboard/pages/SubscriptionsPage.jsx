@@ -1,13 +1,13 @@
 import { useState } from "react";
 import {
-  DollarSign,
-  PiggyBank,
-  Plus,
-  TriangleAlert,
-  Edit2,
-  Trash2,
-  Pause,
-} from "lucide-react";
+  BanknotesIcon,
+  PlusIcon,
+  ExclamationTriangleIcon,
+  PencilIcon,
+  TrashIcon,
+  PauseIcon,
+  DocumentCurrencyDollarIcon,
+} from "@heroicons/react/24/outline";
 import Modal from "../../../components/Modal";
 import PickServicesModal from "../components/PickServicesModal";
 // import ActionButton from "../components/ActionButton";
@@ -84,7 +84,7 @@ function SubscriptionsPage() {
           onClick={() => setIsAddModalOpen(true)}
           className="btn-primary-cinema inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition"
         >
-          <Plus size={16} />
+          <PlusIcon className="w-4 h-4" />
           Add Subscription
         </button>
       </div>
@@ -203,7 +203,7 @@ function SubscriptionsPage() {
         {/* total monthly */}
         <div className="dashboard-card flex items-center gap-4 p-5">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-sky-400">
-            <DollarSign size={20} />
+            <BanknotesIcon className="w-5 h-5" />
           </span>
           <div>
             <p className="text-xs uppercase tracking-widest text-text-muted">
@@ -218,7 +218,7 @@ function SubscriptionsPage() {
         {/* expiring soon */}
         <div className="dashboard-card flex items-center gap-4 p-5">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-amber-400">
-            <TriangleAlert size={20} />
+            <ExclamationTriangleIcon className="w-5 h-5" />
           </span>
           <div>
             <p className="text-xs uppercase tracking-widest text-text-muted">
@@ -233,7 +233,7 @@ function SubscriptionsPage() {
         {/* potential savings */}
         <div className="dashboard-card flex items-center gap-4 p-5">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-rose-500/15 text-rose-400">
-            <PiggyBank size={20} />
+            <DocumentCurrencyDollarIcon className="w-5 h-5" />
           </span>
           <div>
             <p className="text-xs uppercase tracking-widest text-text-muted">
@@ -252,7 +252,7 @@ function SubscriptionsPage() {
         className="btn-primary-cinema fixed bottom-8 right-8 z-30 flex h-14 w-14 items-center justify-center rounded-full shadow-lg shadow-primary/30 transition hover:scale-105"
         aria-label="Add subscription"
       >
-        <Plus size={24} />
+        <PlusIcon className="w-6 h-6" />
       </button>
 
       {/* Modals */}
@@ -261,7 +261,10 @@ function SubscriptionsPage() {
         onClose={() => setIsAddModalOpen(false)}
         title="Add New Subscription"
       >
-        <PickServicesModal onSubmit={() => setIsAddModalOpen(false)} />
+        <PickServicesModal
+          onSubmit={() => setIsAddModalOpen(false)}
+          onClose={() => setIsAddModalOpen(false)}
+        />
       </Modal>
 
       <Modal
@@ -295,18 +298,18 @@ function SubscriptionsPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-4 transition hover:border-primary/40 hover:bg-primary/10 hover:text-primary-soft">
-              <Edit2 size={20} />
+              <PencilIcon className="w-5 h-5" />
               <span className="text-xs font-medium">Edit Details</span>
             </button>
             <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-4 transition hover:border-amber-500/40 hover:bg-amber-500/10 hover:text-amber-400">
-              <Pause size={20} />
+              <PauseIcon className="w-5 h-5" />
               <span className="text-xs font-medium">Pause Service</span>
             </button>
           </div>
 
           <div className="border-t border-white/5 pt-4">
             <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/8 p-3 text-sm font-semibold text-rose-400 transition hover:bg-rose-500/15">
-              <Trash2 size={16} />
+              <TrashIcon className="w-5 h-5" />
               Cancel Subscription
             </button>
           </div>

@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { CalendarDays, Plus, Sparkles } from "lucide-react";
+import {
+  CalendarDaysIcon,
+  PlusIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 import ActionButton from "../components/ActionButton";
 import StatCard from "../components/StatCard";
 import SubscriptionRow from "../components/SubscriptionRow";
@@ -83,11 +87,11 @@ function DashboardOverview() {
 
           <div className="grid gap-3 sm:grid-cols-2">
             <ActionButton onClick={handleAddSubscription} variant="primary">
-              <Plus size={16} />
+              <PlusIcon className="h-4 w-4" />
               Add New Subscription
             </ActionButton>
             <ActionButton onClick={handleComparePlans} variant="secondary">
-              <Sparkles size={16} />
+              <SparklesIcon className="h-4 w-4" />
               Compare Plans
             </ActionButton>
           </div>
@@ -98,7 +102,7 @@ function DashboardOverview() {
             <h2 className="text-2xl font-display text-text">
               Upcoming Renewals
             </h2>
-            <CalendarDays size={18} className="text-text-muted" />
+            <CalendarDaysIcon className="h-10 w-10 text-text-muted" />
           </div>
           <div className="space-y-4">
             {upcomingRenewals.map((renewal) => (
@@ -173,11 +177,11 @@ function DashboardOverview() {
             </div>
             <div className="grid grid-cols-2 gap-3 pt-2">
               <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-4 transition hover:border-primary/40 hover:bg-primary/10">
-                <Plus size={20} className="text-primary-soft" />
+                <PlusIcon className="h-5 w-5" className="text-primary-soft" />
                 <span className="text-xs font-medium">Upgrade</span>
               </button>
               <button className="flex flex-col items-center justify-center gap-2 rounded-xl border border-white/8 bg-white/4 p-4 transition hover:border-rose-500/40 hover:bg-rose-500/10">
-                <Sparkles size={20} className="text-rose-400" />
+                <SparklesIcon className="h-5 w-5" className="text-rose-400" />
                 <span className="text-xs font-medium">Cancel</span>
               </button>
             </div>

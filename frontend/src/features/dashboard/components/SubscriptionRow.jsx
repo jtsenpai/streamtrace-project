@@ -1,4 +1,5 @@
-import { CalendarClock, MoreVertical } from "lucide-react";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
+import { CalendarIcon } from "@heroicons/react/24/outline";
 
 function SubscriptionRow({ name, plan, nextBill, price, accent, onAction }) {
   return (
@@ -15,18 +16,18 @@ function SubscriptionRow({ name, plan, nextBill, price, accent, onAction }) {
         </div>
       </div>
       <div className="hidden items-center gap-2 text-sm text-text-muted md:flex">
-        <CalendarClock size={16} />
+        <CalendarIcon className="h-4 w-4" />
         <span>{nextBill}</span>
       </div>
-      <p className="min-w-[80px] text-right text-lg font-semibold tabular-data text-primary-soft">
+      <p className="min-w-20 text-right text-lg font-semibold tabular-data text-primary-soft">
         {price}
       </p>
-      <button 
+      <button
         onClick={onAction}
-        className="icon-button" 
+        className="icon-button"
         aria-label={`More options for ${name}`}
       >
-        <MoreVertical size={16} />
+        <EllipsisVerticalIcon className="h-4 w-4" />
       </button>
     </article>
   );

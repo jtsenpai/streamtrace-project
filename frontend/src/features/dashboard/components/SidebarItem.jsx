@@ -14,7 +14,7 @@ function SidebarItem({ to, icon: Icon, label, end = false }) {
         ].join(" ")
       }
     >
-      <Icon size={17} />
+      <Icon className="h-5 w-5" />
       <span>{label}</span>
     </NavLink>
   );

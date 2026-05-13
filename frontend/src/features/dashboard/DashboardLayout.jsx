@@ -1,20 +1,25 @@
 import {
-  Bell,
-  CircleHelp,
-  LayoutGrid,
-  ReceiptText,
-  Settings,
-  Tv,
-  User,
-} from "lucide-react";
+  BellIcon,
+  QuestionMarkCircleIcon,
+  Squares2X2Icon,
+  ReceiptPercentIcon,
+  Cog6ToothIcon,
+  TvIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
+
 import { Outlet } from "react-router-dom";
 import SidebarItem from "./components/SidebarItem";
 
 const navItems = [
-  { label: "Overview", to: "/", icon: LayoutGrid, end: true },
-  { label: "Subscriptions", to: "/subscriptions", icon: Tv },
-  { label: "Billing History", to: "/billing-history", icon: ReceiptText },
-  { label: "Settings", to: "/settings", icon: Settings },
+  { label: "Overview", to: "/", icon: Squares2X2Icon, end: true },
+  { label: "Subscriptions", to: "/subscriptions", icon: TvIcon },
+  {
+    label: "Billing History",
+    to: "/billing-history",
+    icon: ReceiptPercentIcon,
+  },
+  { label: "Settings", to: "/settings", icon: Cog6ToothIcon },
 ];
 
 function DashboardLayout() {
@@ -49,13 +54,13 @@ function DashboardLayout() {
             </div>
             <div className="ml-4 flex items-center gap-3 text-text-muted">
               <button className="icon-button" aria-label="Notifications">
-                <Bell size={18} />
+                <BellIcon className="h-5 w-5" />
               </button>
               <button className="icon-button" aria-label="Help">
-                <CircleHelp size={18} />
+                <QuestionMarkCircleIcon className="h-5 w-5" />
               </button>
               <button className="icon-button" aria-label="Profile">
-                <User size={18} />
+                <UserIcon className="h-5 w-5" />
               </button>
             </div>
           </div>

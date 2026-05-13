@@ -1,3 +1,11 @@
+import { CalendarIcon, CreditCardIcon } from "@heroicons/react/24/outline";
+import {
+  siNetflix,
+  siSpotify,
+  siUbisoft,
+  siCrunchyroll
+} from "simple-icons";
+
 export const billingTransactions = [
   {
     id: "txn-1",
@@ -7,7 +15,7 @@ export const billingTransactions = [
     amount: 19.99,
     status: "Paid",
     accent: "#e50914",
-    icon: "▶",
+    icon: siNetflix.svg,
   },
   {
     id: "txn-2",
@@ -17,27 +25,27 @@ export const billingTransactions = [
     amount: 16.99,
     status: "Paid",
     accent: "#1db954",
-    icon: "♪",
+    icon: siSpotify.svg,
   },
   {
     id: "txn-3",
     date: "Oct 12, 2023",
-    service: "Amazon Prime",
-    plan: "Annual Membership",
-    amount: 139.0,
+    service: "Ubisoft+",
+    plan: "Monthly",
+    amount: 6.99,
     status: "Pending",
-    accent: "#ff9900",
-    icon: "▣",
+    accent: "#000000",
+    icon: siUbisoft.svg,
   },
   {
     id: "txn-4",
     date: "Sep 28, 2023",
-    service: "Adobe CC",
-    plan: "All Apps Individual",
-    amount: 54.99,
+    service: "Crunchyroll",
+    plan: "Mega Fan Annual",
+    amount: 30.99,
     status: "Paid",
-    accent: "#1473e6",
-    icon: "△",
+    accent: "#FF5E00",
+    icon: siCrunchyroll.svg,
   },
   {
     id: "txn-5",
@@ -47,7 +55,7 @@ export const billingTransactions = [
     amount: 19.99,
     status: "Paid",
     accent: "#e50914",
-    icon: "▶",
+    icon: siNetflix.svg,
   },
 ];
 
@@ -72,7 +80,7 @@ export const billingInfoCards = [
     description:
       "You have 3 renewals scheduled for next week totaling $45.80.",
     action: "View Schedule",
-    actionIcon: "📅",
+    actionIcon: CalendarIcon,
     gradient: "from-sky-500/15 to-sky-900/10",
     borderColor: "border-sky-500/30",
   },
@@ -82,7 +90,7 @@ export const billingInfoCards = [
     description:
       "Your primary Visa ending in 4242 expires next month. Update now to avoid service interruption.",
     action: "Update Payment",
-    actionIcon: "💳",
+    actionIcon: CreditCardIcon,
     gradient: "from-rose-500/15 to-rose-900/10",
     borderColor: "border-rose-500/30",
   },
