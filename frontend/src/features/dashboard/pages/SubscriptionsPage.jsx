@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  CalendarClock,
   DollarSign,
   PiggyBank,
   Plus,
@@ -10,8 +9,8 @@ import {
   Pause,
 } from "lucide-react";
 import Modal from "../../../components/Modal";
-import AddSubscriptionForm from "../components/AddSubscriptionForm";
-import ActionButton from "../components/ActionButton";
+import PickServicesModal from "../components/PickServicesModal";
+// import ActionButton from "../components/ActionButton";
 import {
   subscriptionCategories,
   subscriptionsList,
@@ -32,7 +31,8 @@ function CategoryBadge({ category }) {
   return (
     <span
       className={`inline-block rounded-full border px-3 py-0.5 text-xs font-semibold ${
-        categoryColors[category] ?? "bg-white/10 text-text-muted border-white/10"
+        categoryColors[category] ??
+        "bg-white/10 text-text-muted border-white/10"
       }`}
     >
       {category}
@@ -80,7 +80,7 @@ function SubscriptionsPage() {
             Manage and track your {subscriptionsList.length} active services.
           </p>
         </div>
-        <button 
+        <button
           onClick={() => setIsAddModalOpen(true)}
           className="btn-primary-cinema inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition"
         >
@@ -108,7 +108,7 @@ function SubscriptionsPage() {
 
       {/* table */}
       <div className="dashboard-card overflow-x-auto">
-        <table className="w-full min-w-[700px] text-sm">
+        <table className="w-full min-w-175 text-sm">
           <thead>
             <tr className="border-b border-white/8 text-left text-xs uppercase tracking-wider text-text-muted">
               <th className="px-5 py-4 font-semibold">Service</th>
@@ -184,7 +184,7 @@ function SubscriptionsPage() {
                       Resume
                     </button>
                   ) : (
-                    <button 
+                    <button
                       onClick={() => handleManage(sub)}
                       className="rounded-lg border border-white/12 bg-white/4 px-4 py-1.5 text-xs font-semibold text-text-muted transition hover:border-white/25 hover:text-text"
                     >
@@ -261,7 +261,7 @@ function SubscriptionsPage() {
         onClose={() => setIsAddModalOpen(false)}
         title="Add New Subscription"
       >
-        <AddSubscriptionForm onSubmit={() => setIsAddModalOpen(false)} />
+        <PickServicesModal onSubmit={() => setIsAddModalOpen(false)} />
       </Modal>
 
       <Modal
@@ -271,14 +271,25 @@ function SubscriptionsPage() {
       >
         <div className="space-y-6">
           <div className="flex items-center gap-4 rounded-xl border border-white/5 bg-white/2 p-4">
-            <ServiceIcon accent={selectedSubscription?.accent} icon={selectedSubscription?.icon} />
+            <ServiceIcon
+              accent={selectedSubscription?.accent}
+              icon={selectedSubscription?.icon}
+            />
             <div>
-              <p className="font-semibold text-text">{selectedSubscription?.name}</p>
-              <p className="text-sm text-text-muted">{selectedSubscription?.plan}</p>
+              <p className="font-semibold text-text">
+                {selectedSubscription?.name}
+              </p>
+              <p className="text-sm text-text-muted">
+                {selectedSubscription?.plan}
+              </p>
             </div>
             <div className="ml-auto text-right">
-              <p className="text-lg font-semibold text-primary-soft">${selectedSubscription?.price.toFixed(2)}</p>
-              <p className="text-xs text-text-muted">{selectedSubscription?.billing}</p>
+              <p className="text-lg font-semibold text-primary-soft">
+                ${selectedSubscription?.price.toFixed(2)}
+              </p>
+              <p className="text-xs text-text-muted">
+                {selectedSubscription?.billing}
+              </p>
             </div>
           </div>
 

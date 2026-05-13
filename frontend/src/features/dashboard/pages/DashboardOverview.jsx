@@ -3,7 +3,7 @@ import { CalendarDays, Plus, Sparkles } from "lucide-react";
 import ActionButton from "../components/ActionButton";
 import StatCard from "../components/StatCard";
 import SubscriptionRow from "../components/SubscriptionRow";
-import AddSubscriptionForm from "../components/AddSubscriptionForm";
+import PickServicesModal from "../components/PickServicesModal";
 import ComparePlansOverview from "../components/ComparePlansOverview";
 import Modal from "../../../components/Modal";
 import {
@@ -133,9 +133,9 @@ function DashboardOverview() {
         </h2>
         <div className="space-y-3">
           {subscriptions.map((subscription) => (
-            <SubscriptionRow 
-              key={subscription.id} 
-              {...subscription} 
+            <SubscriptionRow
+              key={subscription.id}
+              {...subscription}
               onAction={() => handleManage(subscription)}
             />
           ))}
@@ -146,25 +146,29 @@ function DashboardOverview() {
         isOpen={isAddModalOpen}
         onClose={closeModal}
         title={
-          activeModal === "add" 
-            ? "Add New Subscription" 
+          activeModal === "add"
+            ? "Add New Subscription"
             : activeModal === "compare"
-            ? "Compare Plans"
-            : `Manage ${selectedSubscription?.name}`
+              ? "Compare Plans"
+              : `Manage ${selectedSubscription?.name}`
         }
       >
-        {activeModal === "add" && <AddSubscriptionForm onSubmit={closeModal} />}
+        {activeModal === "add" && (
+          <PickServicesModal onSubmit={closeModal} onClose={closeModal} />
+        )}
         {activeModal === "compare" && <ComparePlansOverview />}
         {activeModal === "manage" && (
           <div className="space-y-6 text-center py-4">
-            <div 
+            <div
               className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl text-2xl font-bold text-white shadow-lg"
               style={{ backgroundColor: selectedSubscription?.accent }}
             >
               {selectedSubscription?.name.charAt(0)}
             </div>
             <div className="space-y-1">
-              <h4 className="text-xl font-semibold text-text">{selectedSubscription?.name}</h4>
+              <h4 className="text-xl font-semibold text-text">
+                {selectedSubscription?.name}
+              </h4>
               <p className="text-text-muted">{selectedSubscription?.plan}</p>
             </div>
             <div className="grid grid-cols-2 gap-3 pt-2">
