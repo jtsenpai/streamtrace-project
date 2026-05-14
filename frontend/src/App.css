@@ -118,6 +118,15 @@
     border-color: rgb(135 215 255 / 30%);
     color: var(--color-primary-soft);
   }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @utility text-display {

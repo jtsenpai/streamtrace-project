@@ -24,7 +24,7 @@ const navItems = [
 
 function DashboardLayout() {
   return (
-    <div className="min-h-screen bg-background text-text">
+    <div className="min-h-screen scrollbar-hidden bg-background text-text">
       <aside className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-white/8 lg:bg-sidebar/95 lg:backdrop-blur-sm">
         <div className="border-b border-white/8 px-6 py-8">
           <p className="font-display text-3xl tracking-tight text-primary-soft">
